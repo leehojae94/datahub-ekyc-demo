@@ -29,7 +29,7 @@ a { text-decoration: none; color: inherit; }
 }
 
 /* ===== PAGE LAYOUT ===== */
-.page-wrap { min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding-bottom: 60px; width: 100%; }
+.page-wrap { height: 100vh; overflow: hidden; display: flex; flex-direction: column; align-items: stretch; width: 100%; }
 
 /* ===== PAGE HEADER ===== */
 .page-header {
@@ -85,13 +85,7 @@ a { text-decoration: none; color: inherit; }
 .inquiry-btn:hover { background: #ea7000; }
 
 /* ===== HERO ===== */
-.hero {
-  width: 100%;
-  max-width: 1000px;
-  text-align: center;
-  padding: 52px 24px 36px;
-  margin: 0 auto;
-}
+.hero { display: none; }
 .hero-eyebrow {
   display: inline-flex;
   align-items: center;
@@ -120,18 +114,8 @@ a { text-decoration: none; color: inherit; }
   margin: 0 auto;
 }
 
-/* ===== STEP FLOW ===== */
-.step-flow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  flex-wrap: wrap;
-  width: 100%;
-  max-width: 900px;
-  padding: 0 24px;
-  margin: 0 auto 40px;
-}
+/* ===== STEP FLOW (가로형 - 숨김) ===== */
+.step-flow { display: none; }
 .sf-step {
   display: flex;
   flex-direction: column;
@@ -188,14 +172,16 @@ a { text-decoration: none; color: inherit; }
 
 /* ===== MAIN DEMO AREA ===== */
 .demo-area {
+  flex: 1;
   display: flex;
-  align-items: flex-start;
-  gap: 48px;
-  width: 100%;
-  max-width: 960px;
-  padding: 0 24px;
+  align-items: center;
   justify-content: center;
-  margin: 0 auto;
+  gap: 28px;
+  padding: 16px 32px;
+  overflow: hidden;
+  width: 100%;
+  max-width: none;
+  margin: 0;
 }
 
 /* ===== PHONE MOCKUP ===== */
@@ -204,7 +190,6 @@ a { text-decoration: none; color: inherit; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 auto;
 }
 .phone-frame {
   width: 375px;
@@ -262,7 +247,9 @@ a { text-decoration: none; color: inherit; }
   background: #fff;
   border-radius: 40px;
   overflow: hidden;
-  height: 730px;
+  height: calc(100vh - 64px - 32px - 56px - 60px);
+  min-height: 500px;
+  max-height: 740px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -798,43 +785,75 @@ a { text-decoration: none; color: inherit; }
 }
 
 /* ===== DISCLAIMER ===== */
-.page-footer {
-  margin-top: 56px;
-  padding: 28px 24px;
-  border-top: 1px solid #e5e5e5;
-  width: 100%;
-  text-align: center;
+.page-footer { display: none; }
+
+/* ===== 세로형 STEP INDICATOR ===== */
+.step-vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-shrink: 0;
+}
+.sv-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.sv-item:hover { opacity: 0.75; }
+.sv-circle {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  border: 2px solid #ddd;
   background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: #bbb;
+  transition: all 0.3s;
+  flex-shrink: 0;
 }
-.page-footer p {
+.sv-item.active .sv-circle {
+  background: #FD7D00;
+  border-color: #FD7D00;
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(253,125,0,0.35);
+}
+.sv-item.done .sv-circle {
+  background: #FFF2DF;
+  border-color: #FD7D00;
+  color: #FD7D00;
+}
+.sv-label {
   font-size: 12px;
-  color: #aaa;
-  line-height: 1.8;
-  max-width: 700px;
-  margin: 0 auto;
+  color: #bbb;
+  white-space: nowrap;
+  line-height: 1.35;
 }
-.page-footer strong { color: #999; }
+.sv-item.active .sv-label,
+.sv-item.done .sv-label { color: #FD7D00; font-weight: 600; }
+.sv-connector {
+  width: 2px;
+  height: 18px;
+  background: #e0e0e0;
+  margin-left: 16px;
+  border-radius: 2px;
+  transition: background 0.3s;
+}
+.sv-connector.done { background: #FD7D00; }
 
 /* ===== RESPONSIVE ===== */
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
   .side-panel { display: none; }
-  .demo-area { padding: 0; justify-content: center; }
-  .phone-outer { width: 100%; align-items: center; }
-  .hero h1 { font-size: 26px; }
-  .step-flow { gap: 4px; }
-  .sf-circle { width: 34px; height: 34px; font-size: 12px; }
-  .sf-line { width: 14px; }
+  .demo-area { gap: 20px; padding: 12px 20px; }
   .page-header { padding: 0 16px; }
   .inquiry-btn { display: none; }
 }
-@media (max-width: 430px) {
+@media (max-width: 600px) {
+  .step-vertical { display: none; }
+  .demo-area { padding: 8px 12px; }
   .phone-frame { width: 100%; border-radius: 0; padding: 0; box-shadow: none; background: #fff; }
   .phone-top { display: none; }
-  .phone-screen-area { border-radius: 0; height: calc(100vh - 220px); min-height: 500px; }
-  .hero { padding: 32px 16px 24px; }
-  .hero h1 { font-size: 22px; }
-  .sf-label { display: none; }
-  .step-flow { gap: 6px; }
+  .phone-screen-area { border-radius: 0; height: calc(100vh - 64px - 56px); max-height: none; }
 }
 </style>
 </head>
@@ -909,6 +928,44 @@ a { text-decoration: none; color: inherit; }
 
 <!-- ===== DEMO AREA ===== -->
 <div class="demo-area">
+
+  <!-- 세로형 STEP INDICATOR -->
+  <div class="step-vertical" id="stepVertical">
+    <div class="sv-item active" onclick="goToScreen(1)">
+      <div class="sv-circle">1</div>
+      <span class="sv-label">서비스 시작</span>
+    </div>
+    <div class="sv-connector" id="sv-line-1"></div>
+    <div class="sv-item" onclick="goToScreen(2)">
+      <div class="sv-circle">2</div>
+      <span class="sv-label">신분증 OCR</span>
+    </div>
+    <div class="sv-connector" id="sv-line-2"></div>
+    <div class="sv-item" onclick="goToScreen(3)">
+      <div class="sv-circle">3</div>
+      <span class="sv-label">정보 확인</span>
+    </div>
+    <div class="sv-connector" id="sv-line-3"></div>
+    <div class="sv-item" onclick="goToScreen(4)">
+      <div class="sv-circle">4</div>
+      <span class="sv-label">계좌 입력</span>
+    </div>
+    <div class="sv-connector" id="sv-line-4"></div>
+    <div class="sv-item" onclick="goToScreen(5)">
+      <div class="sv-circle">5</div>
+      <span class="sv-label">1원 인증</span>
+    </div>
+    <div class="sv-connector" id="sv-line-5"></div>
+    <div class="sv-item" onclick="goToScreen(6)">
+      <div class="sv-circle">6</div>
+      <span class="sv-label">인증 완료</span>
+    </div>
+    <div class="sv-connector" id="sv-line-6"></div>
+    <div class="sv-item" onclick="goToScreen(7)">
+      <div class="sv-circle">7</div>
+      <span class="sv-label">결과 조회</span>
+    </div>
+  </div>
 
   <!-- PHONE MOCKUP -->
   <div class="phone-outer">
@@ -1284,7 +1341,7 @@ a { text-decoration: none; color: inherit; }
     document.getElementById('btnNext').disabled = currentScreen === totalScreens;
     document.getElementById('curNum').textContent = currentScreen;
 
-    // Step indicators
+    // Step indicators (horizontal - hidden but kept)
     const steps = document.querySelectorAll('.sf-step');
     const lines = document.querySelectorAll('.sf-line');
 
@@ -1297,6 +1354,21 @@ a { text-decoration: none; color: inherit; }
     lines.forEach(function(line, i) {
       if (i + 1 < currentScreen) line.classList.add('done');
       else line.classList.remove('done');
+    });
+
+    // Vertical step indicators
+    const svItems = document.querySelectorAll('.sv-item');
+    const svConnectors = document.querySelectorAll('.sv-connector');
+
+    svItems.forEach(function(item, i) {
+      item.classList.remove('active', 'done');
+      if (i + 1 === currentScreen) item.classList.add('active');
+      else if (i + 1 < currentScreen) item.classList.add('done');
+    });
+
+    svConnectors.forEach(function(conn, i) {
+      if (i + 1 < currentScreen) conn.classList.add('done');
+      else conn.classList.remove('done');
     });
   }
 
